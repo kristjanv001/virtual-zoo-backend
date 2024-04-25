@@ -8,6 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { HologramsService } from './holograms.service';
+import { CreateHologramDto } from './dto/create-hologram.dto';
+import { UpdateHologramDto } from './dto/update-hologram.dto';
 
 @Controller('holograms')
 export class HologramsController {
@@ -26,13 +28,16 @@ export class HologramsController {
   }
 
   @Post()
-  create(@Body() body) {
-    return this.hologramService.create(body);
+  create(@Body() createHologramDto: CreateHologramDto) {
+    return this.hologramService.create(createHologramDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body) {
-    return this.hologramService.update(parseInt(id), body);
+  update(
+    @Param('id') id: string,
+    @Body() updateHologramDto: UpdateHologramDto,
+  ) {
+    return this.hologramService.update(parseInt(id), updateHologramDto);
   }
 
   @Delete(':id')

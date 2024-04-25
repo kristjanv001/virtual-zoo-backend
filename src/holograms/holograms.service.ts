@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Hologram } from './entities/hologram.entity';
 
 @Injectable()
@@ -25,7 +25,12 @@ export class HologramsService {
   }
 
   findOne(id: number) {
-    return this.holograms.find((hologram) => hologram.id === id);
+    const hologram = this.holograms.find((hologram) => hologram.id === id);
+
+    if (!hologram) {
+      throw new NotFoundException(`hologram #${id} not found`);
+    }
+    return hologram;
   }
 
   create(createHologramDto: any) {
