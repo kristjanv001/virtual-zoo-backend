@@ -11,6 +11,13 @@ export class HologramsService {
       superPower: 'Powerful jaws and sharp teeth',
       extinctSince: '66 million years ago',
     },
+    {
+      id: 2,
+      name: 'Mammoth',
+      weight: 6000,
+      superPower: 'Thick fur for cold climates',
+      extinctSince: '4000 years ago',
+    },
   ];
 
   findAll() {
