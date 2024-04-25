@@ -29,7 +29,14 @@ export class HologramsService {
   }
 
   create(createHologramDto: any) {
-    this.holograms.push(createHologramDto);
+    const newHologram: Hologram = {
+      id: this.genId(),
+      ...createHologramDto,
+    };
+
+    this.holograms.push(newHologram);
+
+    return newHologram;
   }
 
   update(id: number, updateHologramDto: any) {
@@ -49,5 +56,14 @@ export class HologramsService {
     if (hologramIndex >= 0) {
       this.holograms.splice(hologramIndex, 1);
     }
+  }
+
+  private genId(): number {
+    const lastId =
+      this.holograms.length > 0
+        ? this.holograms[this.holograms.length - 1].id
+        : 1;
+
+    return lastId + 1;
   }
 }
