@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Hologram } from './entities/hologram.entity';
+import { UpdateHologramDto } from './dto/update-hologram.dto';
+import { CreateHologramDto } from './dto/create-hologram.dto';
 
 @Injectable()
 export class HologramsService {
@@ -16,7 +18,21 @@ export class HologramsService {
       name: 'Mammoth',
       weight: 6000,
       superPower: 'Thick fur for cold climates',
-      extinctSince: '4000 years ago',
+      // extinctSince: '4000 years ago',
+    },
+    {
+      id: 3,
+      name: 'Dodo',
+      weight: 10,
+      superPower: 'Flightless bird',
+      extinctSince: 'Late 17th century',
+    },
+    {
+      id: 4,
+      name: 'Sabre-toothed Cat',
+      weight: 400,
+      superPower: 'Massive curved teeth for hunting',
+      extinctSince: 'Towards the end of the Pleistocene epoch',
     },
   ];
 
@@ -33,7 +49,7 @@ export class HologramsService {
     return hologram;
   }
 
-  create(createHologramDto: any) {
+  create(createHologramDto: CreateHologramDto) {
     const newHologram: Hologram = {
       id: this.genId(),
       ...createHologramDto,
@@ -44,12 +60,14 @@ export class HologramsService {
     return newHologram;
   }
 
-  update(id: number, updateHologramDto: any) {
-    console.log(updateHologramDto);
-    const existingHologram = this.findOne(id);
+  update(id: number, updateHologramDto: UpdateHologramDto) {
+    const index = this.holograms.findIndex((h) => h.id === id);
 
-    if (existingHologram) {
-      // update
+    if (index >= 0) {
+      const updatedHologram = { id, ...updateHologramDto } as Hologram;
+      this.holograms[index] = updatedHologram;
+
+      return updatedHologram;
     }
   }
 

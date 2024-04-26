@@ -17,8 +17,6 @@ export class HologramsController {
 
   @Get()
   findAll() {
-    // findAll(@Query() paginationQuery)
-    // const { limit, offset } = paginationQuery;
     return this.hologramService.findAll();
   }
 

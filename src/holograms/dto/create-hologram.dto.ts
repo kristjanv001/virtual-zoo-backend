@@ -1,4 +1,11 @@
-import { IsString, IsNumber, Length, Min, Max } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  Length,
+  Min,
+  Max,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateHologramDto {
   @IsString()
@@ -15,6 +22,7 @@ export class CreateHologramDto {
   readonly superPower: string;
 
   @IsString()
-  @Length(2, 500)
+  @Length(0, 500)
+  @IsOptional()
   readonly extinctSince?: string;
 }
