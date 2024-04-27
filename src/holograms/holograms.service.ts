@@ -32,8 +32,6 @@ export class HologramsService {
   }
 
   async update(id: number, updateHologramDto: UpdateHologramDto) {
-    console.log('updated hologram: ', updateHologramDto);
-
     const hologram = await this.hologramsRepository.preload({
       id: +id,
       ...updateHologramDto,
