@@ -2,14 +2,19 @@
 
 ## 📝 Description
 
-This is the backend part of the Virtual Zoo app. It's written in Nestjs. It has a frontend at this url:
+This is the backend part of the Virtual Zoo app. It's written in Nestjs. It has a frontend part which at this repository:
 https://github.com/kristjanv001/virtual-zoo-frontend
 
 
 ## 💻 How to set up?
 
-0. Make sure Nodejs is installed.
+0. Make sure Nodejs (version >= 16) and Docker are installed.
 
-1. Download the project and run `npm install` and then `npm run start` while in this project's directory.
+1. Download the project and run the commands from the terminal while in this project's directory:
+- `docker-compose up -d`
+- `npm install`
+- `npm run start`
 
-2. This Nestjs app should be now running at port 3000.
+2. This Nestjs app (port 3000) and a PostgreSQL Docker container (port 5432) should be now running.
+
+3. Use Postman to make requests (e.g., to localhost:3000/holograms) or set up the frontend part to make requests via it.

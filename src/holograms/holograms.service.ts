@@ -40,6 +40,8 @@ export class HologramsService {
     if (!hologram) {
       throw new NotFoundException(`hologram #${id} not found`);
     }
+
+    return hologram;
   }
 
   async remove(id: number) {
