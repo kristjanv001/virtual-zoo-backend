@@ -32,6 +32,8 @@ export class HologramsService {
   }
 
   async update(id: number, updateHologramDto: UpdateHologramDto) {
+    console.log('updated hologram: ', updateHologramDto);
+
     const hologram = await this.hologramsRepository.preload({
       id: +id,
       ...updateHologramDto,
@@ -41,7 +43,7 @@ export class HologramsService {
       throw new NotFoundException(`hologram #${id} not found`);
     }
 
-    return hologram;
+    return this.hologramsRepository.save(hologram);
   }
 
   async remove(id: number) {
