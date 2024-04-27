@@ -2,46 +2,22 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Hologram } from './entities/hologram.entity';
 import { UpdateHologramDto } from './dto/update-hologram.dto';
 import { CreateHologramDto } from './dto/create-hologram.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class HologramsService {
-  private holograms: Hologram[] = [
-    {
-      id: 1,
-      name: 'T-Rex',
-      weight: 8000,
-      superPower: 'Powerful jaws and sharp teeth',
-      extinctSince: '66 million years ago',
-    },
-    {
-      id: 2,
-      name: 'Mammoth',
-      weight: 6000,
-      superPower: 'Thick fur for cold climates',
-      // extinctSince: '4000 years ago',
-    },
-    {
-      id: 3,
-      name: 'Dodo',
-      weight: 10,
-      superPower: 'Flightless bird',
-      extinctSince: 'Late 17th century',
-    },
-    {
-      id: 4,
-      name: 'Sabre-toothed Cat',
-      weight: 400,
-      superPower: 'Massive curved teeth for hunting',
-      extinctSince: 'Towards the end of the Pleistocene epoch',
-    },
-  ];
+  constructor(
+    @InjectRepository(Hologram)
+    private readonly hologramsRepository: Repository<Hologram>,
+  ) {}
 
-  findAll() {
-    return this.holograms;
+  async findAll(): Promise<Hologram[]> {
+    return await this.hologramsRepository.find();
   }
 
-  findOne(id: number) {
-    const hologram = this.holograms.find((hologram) => hologram.id === id);
+  async findOne(id: number) {
+    const hologram = await this.hologramsRepository.findOneBy({ id: id });
 
     if (!hologram) {
       throw new NotFoundException(`hologram #${id} not found`);
@@ -50,43 +26,25 @@ export class HologramsService {
   }
 
   create(createHologramDto: CreateHologramDto) {
-    const newHologram: Hologram = {
-      id: this.genId(),
-      ...createHologramDto,
-    };
+    const hologram = this.hologramsRepository.create(createHologramDto);
 
-    this.holograms.push(newHologram);
-
-    return newHologram;
+    return this.hologramsRepository.save(hologram);
   }
 
-  update(id: number, updateHologramDto: UpdateHologramDto) {
-    const index = this.holograms.findIndex((h) => h.id === id);
+  async update(id: number, updateHologramDto: UpdateHologramDto) {
+    const hologram = await this.hologramsRepository.preload({
+      id: +id,
+      ...updateHologramDto,
+    });
 
-    if (index >= 0) {
-      const updatedHologram = { id, ...updateHologramDto } as Hologram;
-      this.holograms[index] = updatedHologram;
-
-      return updatedHologram;
+    if (!hologram) {
+      throw new NotFoundException(`hologram #${id} not found`);
     }
   }
 
-  remove(id: number) {
-    const hologramIndex = this.holograms.findIndex(
-      (hologram) => hologram.id === id,
-    );
+  async remove(id: number) {
+    const hologram = await this.findOne(id);
 
-    if (hologramIndex >= 0) {
-      this.holograms.splice(hologramIndex, 1);
-    }
-  }
-
-  private genId(): number {
-    const lastId =
-      this.holograms.length > 0
-        ? this.holograms[this.holograms.length - 1].id
-        : 1;
-
-    return lastId + 1;
+    return this.hologramsRepository.remove(hologram);
   }
 }

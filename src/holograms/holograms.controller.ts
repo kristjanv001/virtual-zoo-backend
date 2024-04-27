@@ -21,8 +21,8 @@ export class HologramsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.hologramService.findOne(parseInt(id));
+  findOne(@Param('id') id: number) {
+    return this.hologramService.findOne(id);
   }
 
   @Post()
@@ -32,14 +32,14 @@ export class HologramsController {
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateHologramDto: UpdateHologramDto,
   ) {
-    return this.hologramService.update(parseInt(id), updateHologramDto);
+    return this.hologramService.update(id, updateHologramDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.hologramService.remove(parseInt(id));
+  remove(@Param('id') id: number) {
+    return this.hologramService.remove(id);
   }
 }
