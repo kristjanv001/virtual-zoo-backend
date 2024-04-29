@@ -8,7 +8,7 @@ export class Hologram {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 6, scale: 2 })
   weight: number;
 
   @Column()
