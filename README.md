@@ -8,10 +8,10 @@ https://github.com/kristjanv001/virtual-zoo-frontend
 
 ## 💻 How to set up?
 
-0. Make sure Nodejs (version >= 16) and Docker are installed. Run Docker.
+0. Make sure Nodejs (version >= 16), npm and Docker Compose are installed.
 
 1. Download the project and run the commands from the terminal while in this project's directory:
-- `docker-compose up -d`
+- `docker-compose up -d` (macos) or `docker compose up` (ubuntu)
 - `npm install`
 - `npm run start`
 
