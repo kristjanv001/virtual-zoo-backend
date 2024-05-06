@@ -5,7 +5,7 @@ import {
   Min,
   Max,
   IsOptional,
-} from 'class-validator';
+} from "class-validator";
 
 export class CreateHologramDto {
   @IsString()
@@ -25,4 +25,7 @@ export class CreateHologramDto {
   @Length(0, 500)
   @IsOptional()
   readonly extinctSince?: string;
+
+  @IsString({ each: true })
+  readonly tags: string[];
 }
