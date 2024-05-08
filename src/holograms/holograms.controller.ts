@@ -3,25 +3,27 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Body,
   Patch,
   Delete,
-} from '@nestjs/common';
-import { HologramsService } from './holograms.service';
-import { CreateHologramDto } from './dto/create-hologram.dto';
-import { UpdateHologramDto } from './dto/update-hologram.dto';
+} from "@nestjs/common";
+import { HologramsService } from "./holograms.service";
+import { CreateHologramDto } from "./dto/create-hologram.dto";
+import { UpdateHologramDto } from "./dto/update-hologram.dto";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 
-@Controller('holograms')
+@Controller("holograms")
 export class HologramsController {
   constructor(private readonly hologramService: HologramsService) {}
 
   @Get()
-  findAll() {
-    return this.hologramService.findAll();
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.hologramService.findAll(paginationQuery);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
+  @Get(":id")
+  findOne(@Param("id") id: number) {
     return this.hologramService.findOne(id);
   }
 
@@ -30,16 +32,16 @@ export class HologramsController {
     return this.hologramService.create(createHologramDto);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   update(
-    @Param('id') id: number,
+    @Param("id") id: number,
     @Body() updateHologramDto: UpdateHologramDto,
   ) {
     return this.hologramService.update(id, updateHologramDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: number) {
+  @Delete(":id")
+  remove(@Param("id") id: number) {
     return this.hologramService.remove(id);
   }
 }

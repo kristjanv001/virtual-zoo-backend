@@ -5,6 +5,7 @@ import { CreateHologramDto } from "./dto/create-hologram.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Tag } from "./entities/tag.entity";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 
 @Injectable()
 export class HologramsService {
@@ -15,9 +16,12 @@ export class HologramsService {
     private readonly tagRepository: Repository<Tag>,
   ) {}
 
-  async findAll(): Promise<Hologram[]> {
+  async findAll(paginationQuery: PaginationQueryDto): Promise<Hologram[]> {
+    const { limit, offset } = paginationQuery;
     return this.hologramsRepository.find({
       relations: ["tags"],
+      skip: offset,
+      take: limit,
     });
   }
 
